@@ -2,7 +2,9 @@
   "name": "reactour",
   "version": "1.9.1",
   "description": "Tourist Guide into your React Components",
-  "main": "dist/index.js",
+  "main": "dist/reactour.cjs.js",
+  "module": "dist/reactour.esm.js",
+  "browser": "dist/reactour.umd.js",
   "scripts": {
     "prepare": "npm run lib",
     "start": "webpack-dev-server --mode development --open",
@@ -10,7 +12,8 @@
     "lib": "babel --out-dir dist --ignore *.test.js,src/demo src",
     "watch": "babel src --watch --out-dir dist --ignore *.test.js,src/demo",
     "build": "webpack --mode production",
-    "lint": "eslint --fix ./; exit 0"
+    "lint": "eslint --fix ./; exit 0",
+    "dev": "rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -59,6 +62,8 @@
     "react-dom": "16.6.0",
     "reshake": "1.1.6",
     "rimraf": "2.6.2",
+    "rollup": "0.67.1",
+    "rollup-plugin-babel": "4.0.3",
     "style-loader": "0.23.1",
     "styled-components": "4.0.3",
     "webpack": "4.25.0",
