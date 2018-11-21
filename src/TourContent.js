@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component, createRef, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import cn from 'classnames'
 import scrollSmooth from 'scroll-smooth'
@@ -15,7 +15,7 @@ import {
 } from './components/index'
 import * as hx from './helpers'
 
-class TourPortal extends Component {
+class TourContent extends Component {
   static propTypes = {
     badgeContent: PropTypes.func,
     highlightedMaskClassName: PropTypes.string,
@@ -425,7 +425,7 @@ class TourPortal extends Component {
 
     if (isOpen) {
       return (
-        <div>
+        <Fragment>
           <div
             ref={c => (this.mask = c)}
             onClick={this.maskClickHandler}
@@ -549,11 +549,11 @@ class TourPortal extends Component {
             <Close onClick={onRequestClose} />
           </Guide>
           {this.props.children}
-        </div>
+        </Fragment>
       )
     }
 
-    return <div />
+    return null
   }
 }
 
@@ -605,4 +605,4 @@ const setNodeState = (node, helper, position) => {
   }
 }
 
-export default TourPortal
+export default TourContent

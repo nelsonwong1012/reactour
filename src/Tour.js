@@ -1,84 +1,47 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Portal from './Portal'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
-import ExecutionEnvironment from 'exenv'
-import TourPortal from './TourPortal'
+import TourContent from './TourContent'
+import Mask from './Mask'
+import Guide from './Guide'
+import TourContext from './TourContext'
 
-const renderSubtreeIntoContainer = ReactDOM.unstable_renderSubtreeIntoContainer
-const SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {}
-
-function getParentElement(parentSelector) {
-  return parentSelector()
+const Tour = props => {
+  const { closeWithMask, isOpen } = props
+  return (
+    <Portal>
+      {/* <TourContent {...props} /> */}
+      <TourContext {...props}>
+        <Mask isOpen={isOpen} closeWithMask={closeWithMask} />
+        <Guide isOpen={isOpen} />
+      </TourContext>
+    </Portal>
+  )
 }
 
-class Tour extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    portalClassName: PropTypes.string,
-    appElement: PropTypes.instanceOf(SafeHTMLElement),
-    onAfterOpen: PropTypes.func,
-    onRequestClose: PropTypes.func,
-    closeWithMask: PropTypes.bool,
-    parentSelector: PropTypes.func,
-  }
+Tour.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  maskClassName: PropTypes.string,
+  closeWithMask: PropTypes.bool,
+  startAt: PropTypes.number,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({
+      selector: PropTypes.string,
+      content: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.element,
+        PropTypes.func,
+      ]).isRequired,
+      position: PropTypes.oneOf(['top', 'right', 'bottom', 'left', 'center']),
+      action: PropTypes.func,
+      style: PropTypes.object,
+      stepInteraction: PropTypes.bool,
+    })
+  ),
+}
 
-  static defaultProps = {
-    isOpen: false,
-    portalClassName: 'reactour-portal',
-    closeWithMask: true,
-    parentSelector() {
-      return document.body
-    },
-  }
-
-  componentDidMount() {
-    this.node = document.createElement('div')
-    this.node.className = this.props.portalClassName
-    const parent = getParentElement(this.props.parentSelector)
-    parent.appendChild(this.node)
-    this.renderPortal(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const currentParent = getParentElement(this.props.parentSelector)
-    const newParent = getParentElement(nextProps.parentSelector)
-
-    if (newParent !== currentParent) {
-      currentParent.removeChild(this.node)
-      newParent.appendChild(this.node)
-    }
-
-    this.renderPortal(nextProps)
-  }
-
-  componentWillUnmount() {
-    this.removePortal()
-  }
-
-  renderPortal(props) {
-    if (props.isOpen) {
-      document.body.classList.add('reactour__body')
-    } else {
-      document.body.classList.remove('reactour__body')
-    }
-
-    this.portal = renderSubtreeIntoContainer(
-      this,
-      <TourPortal {...props} />,
-      this.node
-    )
-  }
-
-  removePortal() {
-    ReactDOM.unmountComponentAtNode(this.node)
-    const parent = getParentElement(this.props.parentSelector)
-    parent.removeChild(this.node)
-    document.body.classList.remove('reactour__body')
-  }
-
-  render() {
-    return null
-  }
+Tour.defaultProps = {
+  startAt: 0,
 }
 
 export default Tour

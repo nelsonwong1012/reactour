@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Demo from './Demo'
-import Tour from '../index'
+import Tour from '../../dist/reactour.esm'
 import Text from './Text'
 import Glitch from './Glitch'
 import Tooltip from './Tooltip'
@@ -59,6 +59,7 @@ class App extends Component {
           isShowingMore={isShowingMore}
         />
         <Tour
+          closeWithMask={true}
           onRequestClose={this.closeTour}
           steps={tourConfig}
           isOpen={isTourOpen}
