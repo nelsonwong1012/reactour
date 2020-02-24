@@ -8,6 +8,7 @@ export const propTypes = {
   className: PropTypes.string,
   closeButtonAriaLabel: PropTypes.string,
   closeWithMask: PropTypes.bool,
+  id: PropTypes.string,
   inViewThreshold: PropTypes.number,
   isOpen: PropTypes.bool.isRequired,
   lastStepNextButton: PropTypes.node,

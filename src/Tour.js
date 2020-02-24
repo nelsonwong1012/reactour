@@ -53,6 +53,7 @@ function Tour({
   showCloseButton,
   closeButtonAriaLabel,
   ariaLabelledBy,
+  id,
 }) {
   const [current, setCurrent] = useState(0)
   const [started, setStarted] = useState(false)
@@ -307,6 +308,7 @@ function Tour({
           rounded={rounded}
           accentColor={accentColor}
           defaultStyles={!CustomHelper}
+          id={id}
           className={cn(CN.helper.base, className, {
             [CN.helper.isOpen]: isOpen,
           })}

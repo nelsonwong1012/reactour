@@ -167,6 +167,12 @@ Type: `number`
 
 Type: `string`
 
+#### id
+
+> Custom id to add to the _Helper_
+
+Type: `string`
+
 #### inViewThreshold
 
 > Tolerance in pixels to add when calculating if an element is outside viewport to scroll into view
